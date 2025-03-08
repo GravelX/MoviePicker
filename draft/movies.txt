@@ -26,3 +26,8 @@ Tron 	1982
 Mars Attack	1996
 Akira	1988
 District 9	2009
+Ghost in the shell	1995
+Close Encounters of the Third Kind	1977
+Eternal Sunshine of the Spotless Mind	2004
+Solaris	1972
+Her	2013
