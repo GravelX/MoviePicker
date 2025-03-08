@@ -1,0 +1,12 @@
+confetti effect: https://confetti.js.org/#
+get the movie images: https://www.omdbapi.com/ 
+
+- Web App
+
+- MVC
+
+Controller:
+- onSpin()
+- onFinishSpin()
+- onCategoryChange()
+- onSelectionsClear()
