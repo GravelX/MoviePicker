@@ -55,12 +55,12 @@ def download_images(data):
 def LOAD_DATA():
     # Dummy data for testing
     data = []
-    data.append({'title': 'Starship Troopers', 'year': '1997', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\exports\\sci-fi\\Starship_Troopers.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BZTNiOGM1ZWUtZTZjZC00OWJmLWE2YzUtZjQ4ODZjZmVlMDU3XkEyXkFqcGc@._V1_SX300.jpg'})
-    data.append({'title': 'Planet of the apes', 'year': '1968', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\exports\\sci-fi\\Planet_of_the_apes.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMjI2NzRkNmQtNTIwZi00ZWMxLThlOGQtMjQ1NjI3MzI5YmIzXkEyXkFqcGc@._V1_SX300.jpg'})
-    data.append({'title': 'They Live', 'year': '1988', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\exports\\sci-fi\\They_Live.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMTQ3MjM3ODU1NV5BMl5BanBnXkFtZTgwMjU3NDU2MTE@._V1_SX300.jpg'})
+    data.append({'title': 'Starship Troopers', 'year': '1997', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\Starship_Troopers.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BZTNiOGM1ZWUtZTZjZC00OWJmLWE2YzUtZjQ4ODZjZmVlMDU3XkEyXkFqcGc@._V1_SX300.jpg'})
+    data.append({'title': 'Planet of the apes', 'year': '1968', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\Planet_of_the_apes.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMjI2NzRkNmQtNTIwZi00ZWMxLThlOGQtMjQ1NjI3MzI5YmIzXkEyXkFqcGc@._V1_SX300.jpg'})
+    data.append({'title': 'They Live', 'year': '1988', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\They_Live.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMTQ3MjM3ODU1NV5BMl5BanBnXkFtZTgwMjU3NDU2MTE@._V1_SX300.jpg'})
     #data = get_movie_data(secrets.CATEGORY_PATHS)
 
     if DOWNLOAD_POSTERS:
         download_images(data)
 
-LOAD_DATA()
+    return data
