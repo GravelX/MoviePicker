@@ -10,7 +10,7 @@ INNER_BORDERS_COLOR = (237, 193, 62)
 OUTER_BORDER_COLOR = (82, 34, 13)
 TEXT_COLOR = (33, 32, 31)
 WHEEL_BG_COLOR = (0, 0, 0)
-INNER_BORDER_W = 5
+INNER_BORDER_W = 1
 OUTER_BORDER_W = 15
 BACKGROUND_COLOR = (0,0,0,0)
 PADDING = 2
@@ -30,7 +30,7 @@ def generate_wheel(movies):
     poster_width = (int(SIZE / nb_sectors)) - 10
     xy_main = (0+PADDING, 0+PADDING, SIZE-PADDING, SIZE-PADDING)
     xy_pie = (0+PADDING+OUTER_BORDER_W, 0+PADDING+OUTER_BORDER_W, SIZE-PADDING-OUTER_BORDER_W, SIZE-PADDING-OUTER_BORDER_W)
-    pieslice_offset = int(360 / nb_sectors)
+    pieslice_offset = 360 / nb_sectors
     # Load color palette
     colors = sample(utils.COLORS, nb_sectors)
     # font for movie titles
@@ -49,8 +49,8 @@ def generate_wheel(movies):
         #print(f"Drawing sector {i+1}/{nb_sectors}")
         #print("Drawing pieslice from", (i * pieslice_offset) - (pieslice_offset //  2) if i != 0 else 360 - (pieslice_offset //  2), "degrees to", (i * pieslice_offset) + (pieslice_offset //  2), "degrees")
         draw.pieslice(xy = xy_pie,
-                      start = (i * pieslice_offset) - int(pieslice_offset /  2) if i != 0 else 360 - int(pieslice_offset /  2),
-                      end = (i * pieslice_offset) + int(pieslice_offset /  2),
+                      start = (i * pieslice_offset) - (pieslice_offset /  2) if i != 0 else 360 - (pieslice_offset /  2),
+                      end = (i * pieslice_offset) + (pieslice_offset /  2),
                       fill = colors[i],
                       outline = INNER_BORDERS_COLOR,
                       width = INNER_BORDER_W)
