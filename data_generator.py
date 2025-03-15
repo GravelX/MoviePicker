@@ -56,7 +56,6 @@ def download_images(data):
             with open(movie['poster_file'], 'wb') as handler:
                 handler.write(img_data)
 
-# --- MAIN ---
 def LOAD_DATA():
     # Dummy data for testing
     #'''
