@@ -40,14 +40,14 @@ def create_movie_object(data, category, save_path):
                 if VERBOSE:
                     print("Couldn't find movie poster using Search() either.")
                     print("Falling back on placeholder image.")
+            # if not, try the get method again but with the correct title
             else:
                 real_title = res[0]['title']
-                # Try again with the correct title
                 res2 = client.get(title=real_title, year=movie['year'], fullplot=False, tomatoes=False)
                 if VERBOSE:
                     print("Second attempt - Get() but using exact title found via search:", real_title)
                     print(res2)
-                # If it worked this time, use the new response
+                # if it worked this time, use the new response
                 if res2 != {}:
                     res = res2
                     method = 0
@@ -55,8 +55,15 @@ def create_movie_object(data, category, save_path):
                         print("Successfully found movie data with Get() using exact title.")
                         print(res)
                 else:
-                    if VERBOSE:
-                        print("Failed to find movie data with Get() using exact title.")
+                    # if the get() method still failed, check if the poster URL is in the search response
+                    if 'poster' in res[0]:
+                        method = 1
+                        if VERBOSE:
+                            print("Failed to find movie data with Get() using exact title, but poster URL was found in Search() response.")
+                    else:
+                        method = 2
+                        if VERBOSE:
+                            print("Failed to find movie data with Get() using exact title, and poster URL was not found in Search() response. Falling back on placeholder image.")
 
         # Grab data with correct method depending on the response
         if VERBOSE:
@@ -72,7 +79,6 @@ def create_movie_object(data, category, save_path):
             movie['plot'] = 'No plot available.'
         else:
             raise ValueError('What the actual fuck.')
-
 
     return movie
 
@@ -112,13 +118,13 @@ def download_images(data):
 
 def LOAD_DATA():
     # Dummy data for testing
-    '''
+    #'''
     data = []
     data.append({'title': 'Starship Troopers', 'year': '1997', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\Starship_Troopers.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BZTNiOGM1ZWUtZTZjZC00OWJmLWE2YzUtZjQ4ODZjZmVlMDU3XkEyXkFqcGc@._V1_SX300.jpg', 'plot': 'Humans in a fascistic, militaristic future do battle with giant alien bugs in a fight for survival.'})
     data.append({'title': 'Planet of the apes', 'year': '1968', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\Planet_of_the_apes.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMjI2NzRkNmQtNTIwZi00ZWMxLThlOGQtMjQ1NjI3MzI5YmIzXkEyXkFqcGc@._V1_SX300.jpg', 'plot': 'An astronaut crew crash-lands on a planet in the distant future where intelligent talking apes are the dominant species, and humans are the oppressed and enslaved.'})
     data.append({'title': 'They Live', 'year': '1988', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\They_Live.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMTQ3MjM3ODU1NV5BMl5BanBnXkFtZTgwMjU3NDU2MTE@._V1_SX300.jpg', 'plot': 'A drifter discovers a pair of sunglasses that allow him to wake up to the fact that aliens have taken over the Earth.'})
-    '''
-    data = get_movie_data(secrets.CATEGORY_PATHS)
+    #'''
+    #data = get_movie_data(secrets.CATEGORY_PATHS)
 
     if DOWNLOAD_POSTERS:
         download_images(data)

@@ -4,6 +4,7 @@ import data_generator
 import utils
 from PIL import Image, ImageDraw, ImageFont
 from random import sample
+import json
 
 # --- GENERAL PARAMS ---
 SIZE = 800
@@ -67,7 +68,8 @@ def generate_wheel(movies):
     # Draw the movie posters in the sectors
     poster_width = POSTER_WIDTH
     # If there are too many movies, reduce the poster width to fit the pie slice
-    if poster_width * 1.5 > pieslice_offset:
+    slice_width = 2 * POSTER_SPACING_FROM_CENTER * math.tan(math.radians(pieslice_offset / 2))
+    if poster_width > slice_width:
         poster_width = int(pieslice_offset / 0.3)
 
     for i, m in enumerate(movies):
@@ -89,9 +91,20 @@ def generate_wheel(movies):
     wheel.save(os.path.join(save_path, 'wheel_posters.png'), "PNG")
 
 def export_wheel_data(movies):
-    # Export the wheel data to a JSON file
-    # We export all the movie data into JSON, while even adding their corresponding angle on the wheel
-    pass
+    # Export all the movie data into JSON, adding their corresponding angle on the wheel into the data.
+    wheel_data = []
+    nb_sectors = len(movies)#
+    pieslice_offset = 360 / nb_sectors
+
+    for i, m in enumerate(movies):
+        angle = (i * pieslice_offset) - (pieslice_offset / 2) if i != 0 else 360 - (pieslice_offset / 2)
+        movie_data = m.copy()
+        movie_data['angle'] = angle
+        wheel_data.append(movie_data)
+
+    save_path = os.path.dirname(movies[0].get('poster_file'))
+    with open(os.path.join(save_path, 'wheel_data.json'), 'w') as f:
+        json.dump(wheel_data, f, indent=4)
 
 def GENERATE_WHEELS():
     movies = data_generator.LOAD_DATA()
@@ -109,8 +122,11 @@ def GENERATE_WHEELS():
     for category in categories:
         category_movies[category] = [movie for movie in movies if movie['category'] == category]
     
-    # Generate the wheels
+    # For every category of movies
     for category in category_movies:
-        generate_wheel(category_movies[category])    
+        # Generate and save the wheels
+        generate_wheel(category_movies[category])
+        # Export the wheel data to JSON
+        export_wheel_data(category_movies[category])
 
 GENERATE_WHEELS()
