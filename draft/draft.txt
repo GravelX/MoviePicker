@@ -10,6 +10,8 @@ Controller:
 - onFinishSpin()
 - onCategoryChange()
 - onSelectionsClear()
+- onPosterToggle()
 
 Future features:
 - All the fucking features from the picker wheel website
+- Maybe we can populate the data in the movies.txt files automatically from the google sheet file.
