@@ -1,4 +1,5 @@
 import math
+import os
 import data_generator
 import utils
 from PIL import Image, ImageDraw, ImageFont
@@ -12,7 +13,7 @@ TEXT_COLOR = (33, 32, 31)
 WHEEL_BG_COLOR = (0, 0, 0)
 INNER_BORDER_W = 1
 OUTER_BORDER_W = 15
-BACKGROUND_COLOR = (0,0,0,0)
+BACKGROUND_COLOR = (0,0,0,0) # transparent
 PADDING = 2
 MAX_TITLE_LENGTH = 50
 SPACING_FROM_CENTER = 90
@@ -44,8 +45,8 @@ def generate_wheel(movies):
                 fill = WHEEL_BG_COLOR,
                 outline = OUTER_BORDER_COLOR,
                 width = OUTER_BORDER_W)
+    # Draw the sectors
     for i, m in enumerate(movies):
-        # Draw the sectors
         #print(f"Drawing sector {i+1}/{nb_sectors}")
         #print("Drawing pieslice from", (i * pieslice_offset) - (pieslice_offset //  2) if i != 0 else 360 - (pieslice_offset //  2), "degrees to", (i * pieslice_offset) + (pieslice_offset //  2), "degrees")
         draw.pieslice(xy = xy_pie,
@@ -61,9 +62,11 @@ def generate_wheel(movies):
         x = int(SIZE / 2) + (SPACING_FROM_CENTER + int(len(title_text)/MAX_TITLE_LENGTH*150)) * math.cos(math.radians(i * pieslice_offset))
         y = int(SIZE / 2) + (SPACING_FROM_CENTER + int(len(title_text)/MAX_TITLE_LENGTH*150)) * math.sin(math.radians(i * pieslice_offset))
         draw_rotated_text(wheel, f, title_text, 360-(i * pieslice_offset), x, y)
-        # Save the wheel once
-        # Draw the movie posters in the sectors
-        # Save the wheel again
+    # Save the wheel once
+    save_path = os.path.dirname(movies[0].get('poster_file'))
+    wheel.save(os.path.join(save_path, 'wheel.png'), "PNG")
+    # Draw the movie posters in the sectors
+    # Save the wheel again
     wheel.show()
 
 def GENERATE_WHEELS():

@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: moccasin;
+}
+#spin-section {
+    width: 70%;
+    height: 100vh;
+    display: grid;
+}
+#info-section {
+    width: 30%;
+    height: 100vh;
+    display: grid;
+    background-color: red;
+}
+#wheel {
+    width: 100%;
+    height: 80vh;
+    background-color: green;
+}
+#button-area {
+    width: 100%;
+    height: 20vh;
+    background-color: yellow;
+}

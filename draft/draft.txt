@@ -10,3 +10,6 @@ Controller:
 - onFinishSpin()
 - onCategoryChange()
 - onSelectionsClear()
+
+Future features:
+- All the fucking features from the picker wheel website
