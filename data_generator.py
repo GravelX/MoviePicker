@@ -7,6 +7,17 @@ import requests
 DOWNLOAD_POSTERS = False
 VERBOSE = False
 
+def get_category_paths():
+    # generate all paths to the movie categories folders
+    file_path = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(file_path, 'data')
+    dirs = os.listdir(file_path)
+    # If there are no movie categories, raise an error
+    if not dirs:
+        raise FileNotFoundError('There are no movie categories in the exports folder.')
+    
+    return [os.path.join(file_path, dir) for dir in dirs]
+
 def create_movie_object(data, category, save_path):
     movie = {}
     method = 0 # 0 = omdb.get, 1 = omdb.search, 2 = placeholder
@@ -124,7 +135,7 @@ def LOAD_DATA():
     data.append({'title': 'Planet of the apes', 'year': '1968', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\Planet_of_the_apes.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMjI2NzRkNmQtNTIwZi00ZWMxLThlOGQtMjQ1NjI3MzI5YmIzXkEyXkFqcGc@._V1_SX300.jpg', 'plot': 'An astronaut crew crash-lands on a planet in the distant future where intelligent talking apes are the dominant species, and humans are the oppressed and enslaved.'})
     data.append({'title': 'They Live', 'year': '1988', 'category': 'Sci-Fi', 'poster_file': 'C:\\Users\\Kami\\Desktop\\vscode-workspaces\\personnal\\MoviePicker\\data\\sci-fi\\They_Live.jpg', 'poster_url': 'https://m.media-amazon.com/images/M/MV5BMTQ3MjM3ODU1NV5BMl5BanBnXkFtZTgwMjU3NDU2MTE@._V1_SX300.jpg', 'plot': 'A drifter discovers a pair of sunglasses that allow him to wake up to the fact that aliens have taken over the Earth.'})
     #'''
-    #data = get_movie_data(secrets.CATEGORY_PATHS)
+    #data = get_movie_data(get_category_paths())
 
     if DOWNLOAD_POSTERS:
         download_images(data)
