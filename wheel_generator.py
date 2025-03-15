@@ -15,7 +15,7 @@ INNER_BORDER_W = 1
 OUTER_BORDER_W = 15
 BACKGROUND_COLOR = (0,0,0,0) # transparent
 PADDING = 2
-POSTER_PADDING = 30
+POSTER_WIDTH = 100
 MAX_TITLE_LENGTH = 50
 TEXT_SPACING_FROM_CENTER = 90
 POSTER_SPACING_FROM_CENTER = int((SIZE-PADDING)/2 - TEXT_SPACING_FROM_CENTER)
@@ -30,7 +30,6 @@ def draw_rotated_text(image, font, text, angle, x, y):
 
 def generate_wheel(movies):
     nb_sectors = len(movies)
-    poster_width = abs(int(POSTER_SPACING_FROM_CENTER*math.cos(math.radians(360/nb_sectors))-(POSTER_PADDING*2)))
     xy_main = (0+PADDING, 0+PADDING, SIZE-PADDING, SIZE-PADDING)
     xy_pie = (0+PADDING+OUTER_BORDER_W, 0+PADDING+OUTER_BORDER_W, SIZE-PADDING-OUTER_BORDER_W, SIZE-PADDING-OUTER_BORDER_W)
     pieslice_offset = 360 / nb_sectors
@@ -64,25 +63,34 @@ def generate_wheel(movies):
         draw_rotated_text(wheel, f, title_text, 360-(i * pieslice_offset), x, y)
     # Save the wheel once
     save_path = os.path.dirname(movies[0].get('poster_file'))
-    #wheel.save(os.path.join(save_path, 'wheel.png'), "PNG")
+    wheel.save(os.path.join(save_path, 'wheel.png'), "PNG")
     # Draw the movie posters in the sectors
+    poster_width = POSTER_WIDTH
+    # If there are too many movies, reduce the poster width to fit the pie slice
+    if poster_width * 1.5 > pieslice_offset:
+        poster_width = int(pieslice_offset / 0.3)
+
     for i, m in enumerate(movies):
+        # Load poster
         poster = Image.open(m['poster_file']).convert("RGBA")
-        # Calculate the position of the poster
-        x = int((SIZE / 2) + (POSTER_SPACING_FROM_CENTER) * math.cos(math.radians(i * pieslice_offset)))
-        y = int((SIZE / 2) + (POSTER_SPACING_FROM_CENTER) * math.sin(math.radians(i * pieslice_offset)))
         # Transform the poster to fit the sector
         angle = 360-(i * pieslice_offset)
         w, h = poster.size
         poster = poster.resize((poster_width, int(poster_width * h / w)))
+        # Rotate the poster around its center
         poster = poster.rotate(angle, expand=True, resample=Image.Resampling.BICUBIC, fillcolor=BACKGROUND_COLOR)
+        # Calculate the position to paster the poster so that it is centered
+        # Calculate the position to paste the poster so that it is centered
+        x = int((SIZE / 2) + POSTER_SPACING_FROM_CENTER * math.cos(math.radians(i * pieslice_offset)) - poster.width / 2)
+        y = int((SIZE / 2) + POSTER_SPACING_FROM_CENTER * math.sin(math.radians(i * pieslice_offset)) - poster.height / 2)
         # Paste the poster
         wheel.paste(poster, (x, y), poster)
-    # Save the wheel again
-    wheel.show()
+    # Save the wheel again but with posters
+    wheel.save(os.path.join(save_path, 'wheel_posters.png'), "PNG")
 
 def export_wheel_data(movies):
     # Export the wheel data to a JSON file
+    # We export all the movie data into JSON, while even adding their corresponding angle on the wheel
     pass
 
 def GENERATE_WHEELS():
