@@ -6,20 +6,20 @@ from PIL import Image, ImageDraw, ImageFont
 from random import sample
 import json
 
-# --- GENERAL PARAMS ---
-SIZE = 800
+# --- GENERATION CONST PARAMS ---
+SIZE = 800 # size of the wheel image (S X S)
 INNER_BORDERS_COLOR = (237, 193, 62)
 OUTER_BORDER_COLOR = (82, 34, 13)
 TEXT_COLOR = (33, 32, 31)
-WHEEL_BG_COLOR = (0, 0, 0)
-INNER_BORDER_W = 1
-OUTER_BORDER_W = 15
+WHEEL_BG_COLOR = (0, 0, 0) # black, but normally not visible
+INNER_BORDER_W = 1 # border width for the sectors inside the wheel
+OUTER_BORDER_W = 15 # border width for the wheel itself
 BACKGROUND_COLOR = (0,0,0,0) # transparent
-PADDING = 2
-POSTER_WIDTH = 100
-MAX_TITLE_LENGTH = 50
-TEXT_SPACING_FROM_CENTER = 90
-POSTER_SPACING_FROM_CENTER = int((SIZE-PADDING)/2 - TEXT_SPACING_FROM_CENTER)
+PADDING = 2 # padding between the wheel and the image border
+POSTER_WIDTH = 100 # max width of the movie posters
+MAX_TITLE_LENGTH = 50 # max length of the movie titles before truncating
+TEXT_SPACING_FROM_CENTER = 90 # distance from the center of the wheel to start of text
+POSTER_SPACING_FROM_CENTER = int((SIZE-PADDING)/2 - TEXT_SPACING_FROM_CENTER) # distance from the center of the wheel to start of posters
 FONT_SIZE = 15
 
 def draw_rotated_text(image, font, text, angle, x, y):
